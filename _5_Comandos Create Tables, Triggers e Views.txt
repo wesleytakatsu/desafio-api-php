@@ -1,0 +1,886 @@
+Login: RETIRADO_DAQUI_POR_SEGURANCA
+
+
+----------------------------------------------------
+
+CREATE DATABASE RETIRADO_DAQUI_POR_SEGURANCA;
+USE RETIRADO_DAQUI_POR_SEGURANCA;
+
+
+
+CREATE TABLE `clientes`(
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `login_cliente` varchar(100) NOT NULL,
+  `senha_cliente` varchar(100) NOT NULL,
+  `email_cliente` varchar(100) NOT NULL,
+  `ativo` bit DEFAULT 0,
+  `codativacao` varchar(100) NOT NULL,
+  `idade` date NOT NULL,
+  `permissao` int unsigned DEFAULT 0,
+  `url` varchar(500),
+  `cash` varchar(500),
+  `facebook` varchar(500),
+  `twiter` varchar(500),
+  `imgperfil` varchar(100),
+  `data_cadastro` datetime NOT NULL,
+  
+  PRIMARY KEY (`id`)
+);
+
+
+CREATE TABLE `genero` (
+	id int unsigned NOT NULL AUTO_INCREMENT,
+	genero varchar(200) NOT NULL,
+	
+	PRIMARY KEY (`id`)
+);
+
+
+CREATE TABLE `jogos` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(200) NOT NULL,
+  `plataforma_jogo` varchar(200) NOT NULL,
+  `genero` int unsigned DEFAULT NULL,
+  `url` varchar(500) NOT NULL,
+  `anolancamento` int(4),
+  `multijogador` bit,
+  `single` bit,
+  `network` bit,
+  `crack` bit,
+  `descricao` varchar(5000),
+  `desenvolvedora` varchar(100),
+  `like` int unsigned DEFAULT 0,
+  `dislike` int unsigned DEFAULT 0,
+  `servidor` varchar(100),
+  `tamanho` float,
+  `imagem` varchar(200),
+  `imagem_ext` bit,
+  `trailer` varchar(200),
+  `data_cadastro` datetime NOT NULL,
+  
+	PRIMARY KEY (`id`),
+  
+  	CONSTRAINT `FK1_id`
+	FOREIGN KEY (`genero`)
+	REFERENCES `genero` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `videos` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(200) NOT NULL,
+  `genero` int unsigned DEFAULT NULL,
+  `url` varchar(500) NOT NULL,
+  `anolancamento` int(4),
+  `descricao` varchar(5000),
+  `audio` varchar(50),
+  `legenda` varchar(50),
+  `like` int unsigned DEFAULT 0,
+  `dislike` int unsigned DEFAULT 0,
+  `servidor` varchar(100),
+  `tamanho` float,
+  `imagem` varchar(200),
+  `imagem_ext` bit,
+  `trailer` varchar(200),
+  `data_cadastro` datetime NOT NULL,
+  
+  PRIMARY KEY (`id`),
+  
+  	CONSTRAINT `FK2_id_genero`
+	FOREIGN KEY (`genero`)
+	REFERENCES `genero` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `audios` (
+	`id` int unsigned NOT NULL AUTO_INCREMENT,
+	`nome` varchar(200) NOT NULL,
+	`genero` int unsigned DEFAULT NULL,
+	`url` varchar(500) NOT NULL,
+	`anolancamento` int(4),
+	`descricao` varchar(5000),
+	`like` int unsigned DEFAULT 0,
+	`dislike` int unsigned DEFAULT 0,
+	`servidor` varchar(100),
+	`tamanho` float,
+	`imagem` varchar(200),
+	`imagem_ext` bit,
+	`trailer` varchar(200),
+	`data_cadastro` datetime NOT NULL,
+	
+	PRIMARY KEY (`id`),
+  
+  	CONSTRAINT `FK3_id_genero`
+	FOREIGN KEY (`genero`)
+	REFERENCES `genero` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `imagens` (
+	`id` int unsigned NOT NULL AUTO_INCREMENT,
+	`nome` varchar(200) NOT NULL,
+	`genero` int unsigned DEFAULT NULL,
+	`url` varchar(500) NOT NULL,
+	`anolancamento` int(4),
+	`descricao` varchar(5000),
+	`like` int unsigned DEFAULT 0,
+	`dislike` int unsigned DEFAULT 0,
+	`servidor` varchar(100),
+	`tamanho` float,
+	`imagem` varchar(200),
+	`imagem_ext` bit,
+	`trailer` varchar(200),
+	`data_cadastro` datetime NOT NULL,
+	
+	PRIMARY KEY (`id`),
+  
+  	CONSTRAINT `FK4_id_genero`
+	FOREIGN KEY (`genero`)
+	REFERENCES `genero` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `livros` (
+	`id` int unsigned NOT NULL AUTO_INCREMENT,
+	`nome` varchar(200) NOT NULL,
+	`genero` int unsigned DEFAULT NULL,
+	`url` varchar(500) NOT NULL,
+	`anolancamento` int(4),
+	`descricao` varchar(5000),
+	`like` int unsigned DEFAULT 0,
+	`dislike` int unsigned DEFAULT 0,
+	`servidor` varchar(100),
+	`tamanho` float,
+	`imagem` varchar(200),
+	`imagem_ext` bit,
+	`trailer` varchar(200),
+	`data_cadastro` datetime NOT NULL,
+	
+	PRIMARY KEY (`id`),
+  
+  	CONSTRAINT `FK5_id_genero`
+	FOREIGN KEY (`genero`)
+	REFERENCES `genero` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `adultos` (
+	`id` int unsigned NOT NULL AUTO_INCREMENT,
+	`nome` varchar(200) NOT NULL,
+	`genero` int unsigned DEFAULT NULL,
+	`url` varchar(500) NOT NULL,
+	`anolancamento` int(4),
+	`descricao` varchar(5000),
+	`like` int unsigned DEFAULT 0,
+	`dislike` int unsigned DEFAULT 0,
+	`servidor` varchar(100),
+	`tamanho` float,
+	`imagem` varchar(200),
+	`imagem_ext` bit,
+	`trailer` varchar(200),
+	`data_cadastro` datetime NOT NULL,
+	
+	PRIMARY KEY (`id`),
+  
+  	CONSTRAINT `FK6_id_genero`
+	FOREIGN KEY (`genero`)
+	REFERENCES `genero` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `programas` (
+	`id` int unsigned NOT NULL AUTO_INCREMENT,
+	`nome` varchar(200) NOT NULL,
+	`genero` int unsigned DEFAULT NULL,
+	`url` varchar(500) NOT NULL,
+	`anolancamento` int(4),
+	`descricao` varchar(5000),
+	`like` int unsigned DEFAULT 0,
+	`dislike` int unsigned DEFAULT 0,
+	`servidor` varchar(100),
+	`tamanho` float,
+	`imagem` varchar(200),
+	`imagem_ext` bit,
+	`trailer` varchar(200),
+	`plataforma` varchar(200),
+	`desenvolvedora` varchar(200),
+	`data_cadastro` datetime NOT NULL,
+	
+	PRIMARY KEY (`id`),
+  
+  	CONSTRAINT `FK7_id_genero`
+	FOREIGN KEY (`genero`)
+	REFERENCES `genero` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+
+CREATE TABLE `log` (
+  `id_log` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `data` datetime NOT NULL,
+  `login_usuario` varchar(100) DEFAULT NULL,
+  `nome_objeto` varchar(200) DEFAULT NULL,
+  `url` varchar(500) DEFAULT NULL,
+  `tabela` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id_log`)
+);
+
+
+CREATE TABLE `comentarios` (
+  `id_comentarios` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id_cliente` int(10) unsigned NOT NULL,
+  `comentario` varchar(500) NOT NULL,
+  PRIMARY KEY (`id_comentarios`),
+  
+    CONSTRAINT `PK_id_cliente`
+	FOREIGN KEY (`id_cliente`)
+	REFERENCES `clientes` (`id_cliente`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `jogos_comentarios` (
+  `id_jogo` int(10) unsigned NOT NULL,
+  `id_comentario` int(10) unsigned NOT NULL,
+
+  PRIMARY KEY (`id_jogo`,`id_comentario`),
+  KEY `PK_id_comentario_idx` (`id_comentario`),
+  
+  CONSTRAINT `PK_id_comentario`
+	FOREIGN KEY (`id_comentario`)
+	REFERENCES `comentarios` (`id_comentarios`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+	
+  CONSTRAINT `PK_id_jogo`
+	FOREIGN KEY (`id_jogo`)
+	REFERENCES `jogos` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+
+CREATE TABLE `videos_comentarios` (
+  `id_video` int(10) unsigned NOT NULL,
+  `id_comentario` int(10) unsigned NOT NULL,
+  
+  PRIMARY KEY (`id_video`,`id_comentario`),
+  KEY `PK_id_comentario_idx` (`id_comentario`),
+
+  CONSTRAINT `PK2_id_comentario`
+  FOREIGN KEY (`id_comentario`)
+	REFERENCES `comentarios` (`id_comentarios`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+  
+  CONSTRAINT `PK_id_video`
+  FOREIGN KEY (`id_video`)
+	REFERENCES `videos` (`id_video`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `audios_comentarios` (
+  `id_audio` int(10) unsigned NOT NULL,
+  `id_comentario` int(10) unsigned NOT NULL,
+  
+  PRIMARY KEY (`id_audio`,`id_comentario`),
+  
+  KEY `PK_id_comentario_idx` (`id_comentario`),
+  CONSTRAINT `PK3_id_comentario`
+  FOREIGN KEY (`id_comentario`)
+	REFERENCES `comentarios` (`id_comentarios`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+  
+  CONSTRAINT `PK_id_audio`
+  FOREIGN KEY (`id_audio`)
+	REFERENCES `audios` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `imagens_comentarios` (
+  `id_imagem` int(10) unsigned NOT NULL,
+  `id_comentario` int(10) unsigned NOT NULL,
+
+  
+  PRIMARY KEY (`id_imagem`,`id_comentario`),
+  
+  KEY `PK_id_comentario_idx` (`id_comentario`),
+  CONSTRAINT `PK4_id_comentario`
+  FOREIGN KEY (`id_comentario`)
+	REFERENCES `comentarios` (`id_comentarios`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+  
+  CONSTRAINT `PK_id_imagem`
+  FOREIGN KEY (`id_imagem`)
+	REFERENCES `imagens` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `livros_comentarios` (
+  `id_livro` int(10) unsigned NOT NULL,
+  `id_comentario` int(10) unsigned NOT NULL,
+  
+  PRIMARY KEY (`id_livro`,`id_comentario`),
+  
+  KEY `PK_id_comentario_idx` (`id_comentario`),
+  CONSTRAINT `PK5_id_comentario`
+  FOREIGN KEY (`id_comentario`)
+	REFERENCES `comentarios` (`id_comentarios`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+  
+  CONSTRAINT `PK_id_livro`
+  FOREIGN KEY (`id_livro`)
+	REFERENCES `livros` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `adultos_comentarios` (
+  `id_adulto` int(10) unsigned NOT NULL,
+  `id_comentario` int(10) unsigned NOT NULL,
+  
+  PRIMARY KEY (`id_adulto`,`id_comentario`),
+  
+  KEY `PK_id_comentario_idx` (`id_comentario`),
+  CONSTRAINT `PK6_id_comentario`
+  FOREIGN KEY (`id_comentario`)
+	REFERENCES `comentarios` (`id_comentarios`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+  
+  CONSTRAINT `PK_id_adulto`
+  FOREIGN KEY (`id_adulto`)
+	REFERENCES `adultos` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `programas_comentarios` (
+  `id_programa` int(10) unsigned NOT NULL,
+  `id_comentario` int(10) unsigned NOT NULL,
+  
+  PRIMARY KEY (`id_programa`,`id_comentario`),
+  
+  KEY `PK_id_comentario_idx` (`id_comentario`),
+  CONSTRAINT `PK7_id_comentario`
+  FOREIGN KEY (`id_comentario`)
+	REFERENCES `comentarios` (`id_comentarios`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+  
+  CONSTRAINT `PK_id_programa`
+  FOREIGN KEY (`id_programa`)
+	REFERENCES `programas` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+
+
+
+CREATE TABLE `clientes_videos` (
+  `id_cliente` int(10) unsigned NOT NULL,
+  `id_video` int(10) unsigned NOT NULL,
+  
+  PRIMARY KEY (`id_cliente`,`id_video`),
+  
+  KEY `FK_id_video_idx` (`id_video`),
+  CONSTRAINT `FK_id_cliente`
+  FOREIGN KEY (`id_cliente`)
+	REFERENCES `clientes` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+  
+  CONSTRAINT `FK_id_video` FOREIGN KEY (`id_video`)
+	REFERENCES `videos` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+CREATE TABLE `clientes_jogos` (
+  `id_cliente` int(10) unsigned NOT NULL,
+  `id_jogo` int(10) unsigned NOT NULL,
+  KEY `id_cliente_idx` (`id_cliente`),
+  KEY `id_jogo_idx` (`id_jogo`),
+  
+  CONSTRAINT `FK2_id_cliente`
+  FOREIGN KEY (`id_cliente`)
+  REFERENCES `clientes` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+
+  CONSTRAINT `id_jogo`
+  FOREIGN KEY (`id_jogo`)
+  REFERENCES `jogos` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `clientes_audios` (
+  `id_cliente` int(10) unsigned NOT NULL,
+  `id_audio` int(10) unsigned NOT NULL,
+  
+  CONSTRAINT `FK3_id_cliente`
+  FOREIGN KEY (`id_cliente`)
+  REFERENCES `clientes` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+
+  CONSTRAINT `id_audio`
+  FOREIGN KEY (`id_audio`)
+  REFERENCES `audios` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
+);
+
+
+
+CREATE TABLE `clientes_imagens` (
+  `id_cliente` int(10) unsigned NOT NULL,
+  `id_imagem` int(10) unsigned NOT NULL,
+  
+  CONSTRAINT `FK4_id_cliente`
+  FOREIGN KEY (`id_cliente`)
+  REFERENCES `clientes` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+
+  CONSTRAINT `id_imagem`
+  FOREIGN KEY (`id_imagem`)
+  REFERENCES `imagens` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
+);
+
+
+
+CREATE TABLE `clientes_livros` (
+  `id_cliente` int(10) unsigned NOT NULL,
+  `id_livro` int(10) unsigned NOT NULL,
+  
+  CONSTRAINT `FK5_id_cliente`
+  FOREIGN KEY (`id_cliente`)
+  REFERENCES `clientes` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+
+  CONSTRAINT `id_livro`
+  FOREIGN KEY (`id_livro`)
+  REFERENCES `livros` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `clientes_adultos` (
+  `id_cliente` int(10) unsigned NOT NULL,
+  `id_adulto` int(10) unsigned NOT NULL,
+  
+  CONSTRAINT `FK6_id_cliente`
+  FOREIGN KEY (`id_cliente`)
+  REFERENCES `clientes` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+
+  CONSTRAINT `id_adulto`
+  FOREIGN KEY (`id_adulto`)
+  REFERENCES `adultos` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `clientes_programas` (
+  `id_cliente` int(10) unsigned NOT NULL,
+  `id_programa` int(10) unsigned NOT NULL,
+  
+  CONSTRAINT `FK7_id_cliente`
+  FOREIGN KEY (`id_cliente`)
+  REFERENCES `clientes` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+
+  CONSTRAINT `id_programa`
+  FOREIGN KEY (`id_programa`)
+  REFERENCES `programas` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `clientes_favoritos`(
+	`id_favorito` int unsigned NOT NULL,
+	`id_cliente` int unsigned NOT NULL,
+	`horario` date,
+	`tabela` varchar(50),
+	`id_objeto` int unsigned NOT NULL,
+
+	CONSTRAINT `FK8_id_cliente`
+	FOREIGN KEY (`id_cliente`)
+	REFERENCES `clientes` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `clientes_amigos` (
+	`id_cliente` int unsigned NOT NULL,
+	`id_amigo` int unsigned NOT NULL,
+	`aceito` bit DEFAULT 0,
+	
+	CONSTRAINT `FK9_id_cliente`
+	FOREIGN KEY (`id_cliente`)
+	REFERENCES `clientes` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+	
+	CONSTRAINT `FK10_id_cliente`
+	FOREIGN KEY (`id_amigo`)
+	REFERENCES `clientes` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+CREATE TABLE `clientes_mensagens` (
+	`id_cliente` int unsigned NOT NULL,
+	`id_remetente` int unsigned NOT NULL,
+	`mensagem` varchar(500) NOT NULL,
+	`lida` bit DEFAULT 0,
+	`horario` date,
+	
+	CONSTRAINT `FK11_id_cliente`
+	FOREIGN KEY (`id_cliente`)
+	REFERENCES `clientes` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+	
+	CONSTRAINT `FK12_id_cliente`
+	FOREIGN KEY (`id_remetente`)
+	REFERENCES `clientes` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `clientes_pedidos` (
+	id_cliente int unsigned NOT NULL,
+	nome_objeto varchar(200) NOT NULL,
+	tabela varchar(50) NOT NULL,
+	descricao varchar(5000),
+	atendido bit DEFAULT 0,
+	
+	CONSTRAINT `FK13_id_cliente`
+	FOREIGN KEY (`id_cliente`)
+	REFERENCES `clientes` (`id`)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+
+CREATE TABLE `maelstrom_filmes` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(200) NOT NULL,
+  `url` varchar(500) NOT NULL,
+  `descricao` varchar(5000),
+  `like` int unsigned DEFAULT 0,
+  `dislike` int unsigned DEFAULT 0,
+  `imagem` varchar(200),
+  `trailer` varchar(200),
+  
+  PRIMARY KEY (`id`)
+);
+
+DELIMITER $$
+CREATE PROCEDURE insereMaelstromFilme (pVarNome varchar(200), pVarUrl varchar(500), pVarDescricao varchar(5000), pVarImagem varchar(200), pVarTrailer varchar(200))
+BEGIN
+INSERT INTO maelstrom_filmes (nome, url, descricao, imagem, trailer)
+	VALUES (pVarNome, pVarUrl, pVarDescricao, pVarImagem, pVarTrailer);
+END
+$$
+DELIMITER ;
+
+CREATE TABLE `maelstrom_musica` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(200) NOT NULL,
+  `url` varchar(500) NOT NULL,
+  `descricao` varchar(5000),
+  `like` int unsigned DEFAULT 0,
+  `dislike` int unsigned DEFAULT 0,
+  `imagem` varchar(200),
+  `trailer` varchar(200),
+  
+  PRIMARY KEY (`id_musica`)
+);
+
+DELIMITER $$
+CREATE PROCEDURE insereMaelstromMusica (pVarNome varchar(200), pVarUrl varchar(500), pVarDescricao varchar(5000), pVarImagem varchar(200), pVarTrailer varchar(200))
+BEGIN
+INSERT INTO maelstrom_musica (nome, url, descricao, imagem, trailer)
+	VALUES (pVarNome, pVarUrl, pVarDescricao, pVarImagem, pVarTrailer);
+END
+$$
+DELIMITER ;
+
+
+
+
+DELIMITER $$
+CREATE DEFINER=`u130508944_wes`@`localhost`
+TRIGGER `u130508944_wes`.`jogos_AFTER_INSERT`
+AFTER INSERT ON `jogos`
+FOR EACH ROW
+
+BEGIN
+
+insert into `u130508944_wes`.`log` (`data`, `nome_objeto`, `url`, `tabela`)
+values ( now() , NEW.nome, NEW.url, 'jogos');
+
+END
+$$
+DELIMITER ;
+
+
+
+							TESTES DE COMANDOS
+							
+DELIMITER $$
+CREATE DEFINER=`testinho`@`localhost`
+TRIGGER `testinho`.`videos_AFTER_INSERT`
+AFTER INSERT ON `videos`
+FOR EACH ROW
+
+BEGIN
+
+insert into `u130508944_wes`.`log` (`data`, `nome_objeto`, `url`, `tabela`)
+values ( now() , NEW.nome, NEW.url, 'videos');
+
+SET @log = last_insert_id();
+END
+$$
+DELIMITER ;
+
+
+
+DELIMITER $$
+CREATE PROCEDURE insereVideo (pVarCliente varchar(100), pVarNome varchar(200), pVarGenero int, pVarUrl varchar(500), pVarLancamento int(4), pVarDescricao varchar(5000), pVarAudio varchar(50), pVarLegenda varchar(50), pVarServidor varchar(100), pVarTamanho float, pVarImagem varchar(200), pVarImagem_ext bit, pVarTrailer varchar(200))
+BEGIN
+INSERT INTO videos (nome, genero, url, anolancamento, descricao, audio, legenda, servidor, tamanho, imagem, imagem_ext, trailer)
+	VALUES (pVarNome, pVarGenero, pVarUrl, pVarLancamento, pVarDescricao, pVarAudio, pVarLegenda, pVarServidor, pVarTamanho, pVarImagem, pVarImagem_ext, pVarTrailer);
+SET @idVideo = last_insert_id();
+SET @idCliente = (SELECT id FROM clientes WHERE login_cliente = pVarCliente);
+
+INSERT INTO clientes_videos (id_cliente , id_video)
+	VALUES (@idCliente, @idVideo);
+SET @teste = (select MAX(id_log) from log);
+UPDATE log SET login_usuario = pVarCliente where id_log = @teste;
+END
+$$
+DELIMITER ;
+
+
+
+DELIMITER $$
+CREATE PROCEDURE insereJogo (
+ pVarCliente varchar(100), pVarNome varchar(200), pVarPlataforma varchar(200), pVarGenero int,
+ pVarUrl varchar(500), pVarAno int, pVarmulti bit, pVarSingle bit, pVarNetwork bit, pVarCrack bit, pVarDescricao varchar(5000),
+ pVarDesenvolvedora varchar(100), pVarServidor varchar(100), pVarTamanho float, pVarTrailer varchar(200))
+BEGIN
+INSERT INTO jogos (nome, plataforma_jogo, genero, url, anolancamento, multijogador, single, network, crack, descricao, desenvolvedora, servidor, tamanho, trailer)
+	VALUES (pVarNome, pVarPlataforma, pVarGenero, pVarUrl, pVarAno, pVarmulti, pVarSingle, pVarNetwork, pVarCrack, pVarDescricao, pVarDesenvolvedora, pVarServidor, pVarTamanho, pVarTrailer);
+SET @idJogo = last_insert_id();
+SET @idCliente = (SELECT id FROM clientes WHERE login_cliente = pVarCliente);
+
+INSERT INTO clientes_jogos (id_cliente , id_jogo)
+	VALUES (@idCliente, @idJogo);
+SET @teste = (select MAX(id_log) from log);
+UPDATE log SET login_usuario = pVarCliente where id_log = @teste;
+END
+$$
+DELIMITER ;
+
+
+
+--     //testar    ?
+DELIMITER $$
+CREATE PROCEDURE insereAudio (
+ pVarCliente varchar(100), pVarNome varchar(200), pVarGenero int,
+ pVarUrl varchar(500), pVarAno int, pVarDescricao varchar(5000),
+ pVarServidor varchar(100), pVarTamanho float, pVarTrailer varchar(200))
+BEGIN
+INSERT INTO audios (nome, genero, url, anolancamento, descricao, servidor, tamanho, trailer)
+	VALUES (pVarNome, pVarGenero, pVarUrl, pVarAno, pVarDescricao, pVarServidor, pVarTamanho, pVarTrailer);
+SET @idAudio = last_insert_id();
+SET @idCliente = (SELECT id FROM clientes WHERE login_cliente = pVarCliente);
+
+INSERT INTO clientes_audios (id_cliente , id_audio)
+	VALUES (@idCliente, @idAudio);
+SET @teste = (select MAX(id_log) from log);
+UPDATE log SET login_usuario = pVarCliente where id_log = @teste;
+END
+$$
+DELIMITER ;
+
+
+--   //testar    ?
+DELIMITER $$
+CREATE PROCEDURE insereLivro (
+ pVarCliente varchar(100), pVarNome varchar(200), pVarGenero int,
+ pVarUrl varchar(500), pVarAno int, pVarDescricao varchar(5000),
+ pVarServidor varchar(100), pVarTamanho float, pVarTrailer varchar(200))
+BEGIN
+INSERT INTO livros (nome, genero, url, anolancamento, descricao, servidor, tamanho, trailer)
+	VALUES (pVarNome, pVarGenero, pVarUrl, pVarAno, pVarDescricao, pVarServidor, pVarTamanho, pVarTrailer);
+SET @idLivro = last_insert_id();
+SET @idCliente = (SELECT id FROM clientes WHERE login_cliente = pVarCliente);
+
+INSERT INTO clientes_livros (id_cliente , id_livro)
+	VALUES (@idCliente, @idLivro);
+SET @teste = (select MAX(id_log) from log);
+UPDATE log SET login_usuario = pVarCliente where id_log = @teste;
+END
+$$
+DELIMITER ;
+
+--  //testar  ?
+DELIMITER $$
+CREATE PROCEDURE insereAdulto (
+ pVarCliente varchar(100), pVarNome varchar(200), pVarGenero int,
+ pVarUrl varchar(500), pVarAno int, pVarDescricao varchar(5000),
+ pVarServidor varchar(100), pVarTamanho float, pVarTrailer varchar(200))
+BEGIN
+INSERT INTO adultos (nome, genero, url, anolancamento, descricao, servidor, tamanho, trailer)
+	VALUES (pVarNome, pVarGenero, pVarUrl, pVarAno, pVarDescricao, pVarServidor, pVarTamanho, pVarTrailer);
+SET @idAdulto = last_insert_id();
+SET @idCliente = (SELECT id FROM clientes WHERE login_cliente = pVarCliente);
+
+INSERT INTO clientes_adultos (id_cliente , id_adulto)
+	VALUES (@idCliente, @idAdulto);
+SET @teste = (select MAX(id_log) from log);
+UPDATE log SET login_usuario = pVarCliente where id_log = @teste;
+END
+$$
+DELIMITER ;
+
+
+
+--   //testar  ?
+DELIMITER $$
+CREATE PROCEDURE insereImagem (
+ pVarCliente varchar(100), pVarNome varchar(200), pVarGenero int,
+ pVarUrl varchar(500), pVarAno int, pVarDescricao varchar(5000),
+ pVarServidor varchar(100), pVarTamanho float, pVarTrailer varchar(200))
+BEGIN
+INSERT INTO imagens (nome, genero, url, anolancamento, descricao, servidor, tamanho, trailer)
+	VALUES (pVarNome, pVarGenero, pVarUrl, pVarAno, pVarDescricao, pVarServidor, pVarTamanho, pVarTrailer);
+SET @idImagem = last_insert_id();
+SET @idCliente = (SELECT id FROM clientes WHERE login_cliente = pVarCliente);
+
+INSERT INTO clientes_imagens (id_cliente , id_imagem)
+	VALUES (@idCliente, @idImagem);
+SET @teste = (select MAX(id_log) from log);
+UPDATE log SET login_usuario = pVarCliente where id_log = @teste;
+END
+$$
+DELIMITER ;
+
+
+
+DELIMITER $$
+CREATE PROCEDURE inserePrograma (
+ pVarCliente varchar(100), pVarNome varchar(200), pVarGenero int,
+ pVarUrl varchar(500), pVarAno int, pVarDescricao varchar(5000),
+ pVarServidor varchar(100), pVarTamanho float, pVarTrailer varchar(200))
+BEGIN
+INSERT INTO programas (nome, genero, url, anolancamento, descricao, servidor, tamanho, trailer)
+	VALUES (pVarNome, pVarGenero, pVarUrl, pVarAno, pVarDescricao, pVarServidor, pVarTamanho, pVarTrailer);
+SET @idPrograma = last_insert_id();
+SET @idCliente = (SELECT id FROM clientes WHERE login_cliente = pVarCliente);
+
+INSERT INTO clientes_programas (id_cliente , id_programa)
+	VALUES (@idCliente, @idPrograma);
+SET @teste = (select MAX(id_log) from log);
+UPDATE log SET login_usuario = pVarCliente where id_log = @teste;
+END
+$$
+DELIMITER ;
+
+
+
+
+
+
+CREATE VIEW VW_JOGO AS SELECT nome from jogos;
+
+CREATE VIEW VW_VIDEO AS SELECT nome from videos;
+
+
+------------------------------------------------------------------------
+
+
+ALTER TABLE clientes
+ADD COLUMN login
+
+
+CALL insereVideo ('1' , 'Sonic' , 'Trailer' , 'youtube.com');
+
+CREATE PROCEDURE verCliente (varID int)
+SELECT CONCAT('O usuário do ID mensionado é ', login_cliente) AS loginDoCliente
+FROM clientes
+WHERE id_cliente = varID;
+
+
+CREATE PROCEDURE insereJogo (varNome varchar(200), varPlataforma_jogo varchar(200), varUrl varchar(500))
+INSERT INTO jogos (nome, plataforma_jogo, url)
+VALUES (varNome, varPlataforma_jogo, varUrl);
+
+
+------------------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE insereVideo (pVarCliente varchar(100), pVarNome varchar(200), pVarGenero int, pVarUrl varchar(500))
+BEGIN
+INSERT INTO videos (nome, genero, url)
+	VALUES (pVarNome, pVarGenero, pVarUrl);
+SET @idVideo = last_insert_id();
+SET @idCliente = (SELECT id_cliente FROM clientes WHERE login_cliente = pVarCliente);
+
+INSERT INTO clientes_videos (id_cliente , id_video)
+	VALUES (@idCliente, @idVideo);
+SET @teste = (select MAX(id_log) from log);
+UPDATE log SET login_usuario = pVarCliente where id_log = @teste;
+END
+$$
+DELIMITER ;
+
+
