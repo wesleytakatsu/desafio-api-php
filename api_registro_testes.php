@@ -115,36 +115,24 @@
     
     //  VALIDAÇÃO DE FORMULÁRIOS (PASSAR PARA A API)
     //  REGISTRO CONTATOS
-    if(isset($_POST['nome']) && $_POST['sobrenome']){
+    if(isset($_POST['nome']) && $_POST['sobrenome'] && isset($_POST['adicionaContato'])){
         echo "Post OK";
         $contatoArray = [
             "nome"=> $_POST['nome'],
             "sobrenome"=> $_POST['sobrenome'],
+            "nomesobrenome"=> $_POST['nome']." ".$_POST['sobrenome'],
             "datanasc"=> $_POST['datanasc'],
             "telefone"=> $_POST['telefone'],
             "celular"=> $_POST['celular'],
             "email"=> $_POST['email']
         ];
-        if ($empresa->validarData($_POST['datanasc'])){
-            echo "<br>data nascimento válida!<br>";
-        }else{
-            echo "<br>data nascimento inválida!<br>";
-        }
-
-        if(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-            echo "<br>email válido!<br>";
-        }
-        else {
-            echo "email inválido!<br>";
-        }
-        print_r($contatoArray);
 
         $empresa->contatoAdicionar($_POST['empresa'], $contatoArray);
         //$empresa->listaContatos();
     }
 
     // REGISTRO EMPRESAS
-    if(isset($_POST['nomeEmpresa'])){
+    if(isset($_POST['nomeEmpresa']) && isset($_POST['adicionaEmpresa'])){
         echo "<br>Post OK<br>";
         print_r($_POST['nomeEmpresa']);
         $empresa->empresaAdicionar($_POST['nomeEmpresa']);

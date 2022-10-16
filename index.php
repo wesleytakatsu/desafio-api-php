@@ -19,7 +19,7 @@
             <h2>Formulários:<br>
                 <a href="formEmpresa.php">Cadastro de Empresas</a><br>
                 <a href="formContato.php">Cadastro de Contato</a><br>
-                <a href="editarRegistros.php">Editar Registros</a><br>
+                <a href="editarregistro.php">Editar Registros</a><br>
             </h2>
             <a href='index.php'>Home</a><br>
             <a href='index.php?versaoPHP=true'>Versão do PHP</a><br>

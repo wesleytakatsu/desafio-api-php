@@ -35,7 +35,7 @@
                 <h2>Adicionar contato</h2>
                 <form action="formContato.php" method="post">
 
-
+                <input type="checkbox" id="adicionaContato" name="adicionaContato" checked onclick="return false;">
                     <label for="empresa">Empresa:</label><br>
 
                     <select name="empresa" id="empresa">

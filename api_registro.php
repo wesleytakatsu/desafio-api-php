@@ -1,9 +1,11 @@
 <?php
 
     class Empresa {
-        // Properties
+        // Propriedades
         public $contatos; // ARRAY CONTATOS
         public $empresas; // ARRAY EMPRESAS
+        public $chaveEmpresa;   //ATRIBUTO TEMPORÁRIO
+        public $chaveContato;   //ATRIBUTO TEMPORÁRIO
         public $arquivoJSON; //NOME ARQUIVO
         public $dadosJsonDecodificados; //ARRAY
         public $dadosJsonDecodificadosObjeto; //OBJETO
@@ -39,6 +41,36 @@
             }
             return null;
         }
+        function getContatoEmpresa($nomeEmpresa, $nomeContato){
+            //  RETORNA UM CONTATO ESPECÍFICO DE UMA EMPRESA ESPECÍFICA
+            echo "<br>Executou getContatoEmpresa<br>";
+            echo "Nome Empresa: ".$nomeEmpresa."<br>";
+            echo "Nome Contato: ".$nomeContato."<br>";
+            $this->chaveEmpresa = array_search(
+                $nomeEmpresa,
+                array_column(
+                    $this->dadosJsonDecodificados['empresa'], 'nome'
+                )
+            );
+            echo "Chave empresa: ".$this->chaveEmpresa."<br>";
+            $this->chaveContato = array_search(
+                $nomeContato,
+                array_column(
+                    $this->dadosJsonDecodificados['empresa'][$this->chaveEmpresa]['contatos'], 'nomesobrenome'
+                )
+            );
+            echo "Chave Contato: ".$this->chaveContato."<br>";
+            return $this->dadosJsonDecodificados['empresa'][$this->chaveEmpresa]['contatos'][$this->chaveContato];
+        }
+        function getChaveEmpresa($nomeEmpresa){
+            $this->chaveEmpresa = array_search(
+                $nomeEmpresa,
+                array_column(
+                    $this->dadosJsonDecodificados['empresa'], 'nome'
+                )
+            );
+            return $this->chaveEmpresa;
+        }
         // FINALIZADO
         function carregarArquivo($arquivoJSON){
             $this->arquivoJSON = "registros.json";
@@ -60,8 +92,6 @@
             //  CODIFICANDO PARA JSON E GRAVANDO NO ARQUIVO
             $this->dadosJsonCodificados = json_encode($this->dadosJsonDecodificados, JSON_PRETTY_PRINT);
 
-            //print_r($this->dadosJsonCodificados);
-
             $fp = fopen($this->arquivoJSON, 'w');
             fwrite($fp, $this->dadosJsonCodificados);
             fclose($fp);
@@ -70,30 +100,62 @@
         // FINALIZADO
         function contatoAdicionar($empresaNome, $contatoArray){
 
+            $contatoValidado = true;
+            if ($this->validarData($contatoArray['datanasc'])){
+                echo "<br>data nascimento válida!<br>";
+            }else{
+                echo "<br>data nascimento inválida!<br>";
+                $contatoValidado = false;
+            }
+    
+            if(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                echo "<br>email válido!<br>";
+            }
+            else {
+                echo "email inválido!<br>";
+                $contatoValidado = false;
+            }
+            echo "<br>Registro a ser inserido:<br>";
+            print_r($contatoArray);
+    
+
+            //  BUSCA PELA EMPRESA QUE O CONTATO SERÁ REGISTRADO
             $chave = array_search(
                 $empresaNome,
                 array_column(
                     $this->dadosJsonDecodificados['empresa'], 'nome'
                 )
             );
-            //echo "ARRAY ANTES:<br>";
-            //print_r($this->dadosJsonDecodificados['empresa'][$chave]['contatos']);
-
-            $nomeSobrenome = $contatoArray['nome'].$contatoArray['sobrenome'];
+            
+            //  BUSCA PARA VER SE O CONTATO JÁ EXISTE
+            echo "<br>Estrutura de contatos da empresa selecionada: ".$empresaNome."<br>";
+            print_r( $this->dadosJsonDecodificados['empresa'][$chave]['contatos']);
             $chaveContato = array_search(
-                $empresaNome,
+                $contatoArray['nomesobrenome'],
                 array_column(
                     $this->dadosJsonDecodificados['empresa'][$chave]['contatos'],
-                    $nomeSobrenome
+                    'nomesobrenome'
                 )
             );
-            if($chave == null){
+            echo "<br>Buscando contatos na lista pelo nome: ".$contatoArray['nomesobrenome'];
+            echo "<br>retorno da chave: ".$chaveContato."<br>";
+            echo "<br>Retorno do array_column:<br>";
+            print_r(
+                array_column(
+                    $this->dadosJsonDecodificados['empresa'][$chave]['contatos'],
+                    'nomesobrenome'
+                )
+            );
+            
+            if( $chaveContato == null && $chaveContato !== 0){
+                echo "<br>Registrado com sucesso!<br>";
                 array_push(
                     $this->dadosJsonDecodificados['empresa'][$chave]['contatos'],
                     $contatoArray
                 );
             }else{
-                echo "<br>O nome do contato já existe!";
+                echo "<br>registro encontrado: ".$chaveContato."<br>";
+                echo "<br>O nome do contato já existe!<br>";
             }
 
             //echo "ARRAY DEPOIS:<br>";
@@ -131,13 +193,88 @@
         }
 
         // VERIFICAR
-        function contatoAtualizar($empresaNome, $clienteNome){
+        function contatoAtualizar($chaveEmpresa, $contatoArray, $chaveContato){
+            echo "<br>Executando a alteração!<br>";
 
+            //  RETORNA UM CONTATO ESPECÍFICO DE UMA EMPRESA ESPECÍFICA
+            echo "<br>Executou contatoAtualizar<br>";
+            echo "Nome Empresa: ".$this->dadosJsonDecodificados['empresa'][$chaveEmpresa]['nome']."<br>";
+            echo "Nome Contato: ".$contatoArray['nomesobrenome']."<br>";
+            
+            echo "Chave empresa: ".$chaveEmpresa."<br>";
+            echo "Chave Contato: ".$chaveContato."<br>";
+
+            $base = $this->dadosJsonDecodificados['empresa'][$chaveEmpresa]['contatos'];
+            $replacement = array( $chaveContato => $contatoArray );
+            $overwrited = array_replace($base, $replacement);
+            echo "<pre>";
+            print_r($overwrited);
+            $this->dadosJsonDecodificados['empresa'][$chaveEmpresa]['contatos'] = $overwrited;
+            echo "Resultado do merge";
+            print_r($this->dadosJsonDecodificados['empresa'][$chaveEmpresa]['contatos']);
+            echo "</pre>";
+
+            $this->gravarArquivo();
         }
 
-        // VERIFICAR
-        function contatoRemover(){
+        function empresaAtualizar($chaveEmpresa, $nomeEmpresa){
+            echo "<br>Executando a alteração!<br>";
 
+            //  RETORNA UM CONTATO ESPECÍFICO DE UMA EMPRESA ESPECÍFICA
+            echo "<br>Executou empresaAtualizar<br>";
+
+            echo "Chave empresa: ".$chaveEmpresa."<br>";
+            echo "Nome Empresa: ".$nomeEmpresa."<br>";
+
+            //  ARMAZENA OS CONTATOS DA EMPRESA
+            $contatosEmpresa = $this->dadosJsonDecodificados['empresa'][$chaveEmpresa]['contatos'];
+
+            //  ARRAY EMPRESA PRONTA PARA SUBSTITUIR A ORIGINAL
+            $arrayEmpresaAtualizada = array (
+                    'nome' => $nomeEmpresa,
+                    'contatos' => $contatosEmpresa
+            );
+            
+            //  ARRAY ORIGINAL COMPLETA PARA SER ALTERADA
+            $base = $this->dadosJsonDecodificados['empresa'];
+
+            //  PREPARO PARA SUBSTITUIÇÃO
+            $replacement = array( $chaveEmpresa => $arrayEmpresaAtualizada );
+
+            //  ALTERAÇÃO DA ARRAY ORIGINAL
+            $overwrited = array_replace($base, $replacement);
+
+            //  MOSTRANDO O RESULTADO DA ALTERAÇÃO NA TELA
+            echo "<pre>";
+            $this->dadosJsonDecodificados['empresa'] = $overwrited;
+            echo "Resultado do merge:<br>";
+            print_r($this->dadosJsonDecodificados['empresa']);
+            echo "</pre>";
+            $this->gravarArquivo();
+        }
+        // FINALIZADO
+        function deletaContato($nomeEmpresa, $nomeContato){
+            echo "<br>Executou deletaContato()<br>";
+            echo "Nome Empresa: ".$nomeEmpresa."<br>";
+            echo "Nome Contato: ".$nomeContato."<br>";
+            $chaveEmpresa = array_search(
+                $nomeEmpresa,
+                array_column(
+                    $this->dadosJsonDecodificados['empresa'], 'nome'
+                )
+            );
+            echo "Chave empresa: ".$chaveEmpresa."<br>";
+            $chaveContato = array_search(
+                $nomeContato,
+                array_column(
+                    $this->dadosJsonDecodificados['empresa'][$chaveEmpresa]['contatos'], 'nomesobrenome'
+                )
+            );
+            echo "Chave Contato: ".$chaveContato."<br>";
+            array_splice($this->dadosJsonDecodificados['empresa'][$chaveEmpresa]['contatos'], $chaveContato);
+            echo "Resultado da remoção:<br>";
+            print_r($this->dadosJsonDecodificados['empresa'][$chaveEmpresa]['contatos']);
+            $this->gravarArquivo();
         }
 
         // FINALIZADO
@@ -153,6 +290,19 @@
             foreach($this->dadosJsonDecodificadosObjeto['empresa'] as $empresa){
                 echo 'Nome da empresa: ' . $empresa['nome'] . PHP_EOL;
             }
+        }
+
+        // FINALIZADO
+        function deletaEmpresa($nomeEmpresa){
+            $chave = array_search(
+                $nomeEmpresa,
+                array_column(
+                    $this->dadosJsonDecodificados['empresa'], 'nome'
+                )
+            );
+            array_splice($this->dadosJsonDecodificados['empresa'], $chave, 1);
+            print_r($this->dadosJsonDecodificados['empresa']);
+            $this->gravarArquivo();
         }
 
         // FINALIZADO

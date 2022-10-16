@@ -1,0 +1,25 @@
+getEmpresas()
+getContatos(nomeempresa)
+carregarArquivo(nomearquivo)
+gravarArquivo()
+
+contatoAdicionar($empresaNome, $contatoArray)
+
+empresaAdicionar($empresaNome)
+
+contatoAtualizar(CHAVE EMPRESA , ARRAY CONTATO , CHAVE CONTATO)
+deletaContato($empresaNome, $contatoNome)
+
+empresaAtualizar ( CHAVE EMPRESA , ARRAY EMPRESA)
+listaEmpresas()
+listaEmpresasObj()
+deletaEmpresa($nomeEmpresa, $nomeContato)
+
+listaContatos()
+
+contatoSelecionar()
+
+
+
+
+

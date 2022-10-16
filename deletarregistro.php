@@ -32,30 +32,30 @@
                 ?>
             </div>
             <div id='formulario'>
-                <h2>Deletar ou Editar Registro</h2>
+                <h2>Deletando o Registro</h2>
+                <pre>
                 <?php
-                    foreach($empresa->dadosJsonDecodificados['empresa'] as $empresa){
-                        echo "<br>Empresa: " . $empresa['nome'] .
-                            " <a href='deletar.php?empresa=".$empresa['nome']."'>Deletar</a> ".
-                            " <a href='editar.php?empresa=".$empresa['nome']."'>Editar</a> ".
-                            "<br>";
-                        foreach($empresa['contatos'] as $contato){
-                            echo "Contato: " . $contato['nome'] . " " . $contato['sobrenome'] . 
-                            " <a href='deletar.php?contato=".$contato['nome'].$contato['sobrenome']."'>Deletar</a> ".
-                            " <a href='editar.php?contato=".$contato['nome'].$contato['sobrenome']."'>Editar</a> ".
-                            "<br>";
-                        }
+
+                    echo "Nome recebido no POST: ".$_GET['nomeEmpresa']."<br>";
+                    echo "Início do processo de deleção.<br>";
+
+
+                    //  EXECUTA A DELEÇÃO DA EMPRESA SELECIONADA
+                    if(isset($_GET['nomeEmpresa']) && isset($_GET['deletarEmpresa'])){
+                        $empresa->deletaEmpresa($_GET['nomeEmpresa']);
                     }
 
+                    //  EXECUTA A DELEÇÃO DO CONTATO SELECIONADO
+                    if(isset($_GET['nomeEmpresa']) && isset($_GET['nomeContato'])){
+                        $empresa->deletaContato($_GET['nomeEmpresa'], $_GET['nomeContato']);
+                    }
                 ?>
-
+                </pre>
             </div>
         </div>
-
-
     </main>
-
-
-
 </body>
 </html>
+
+
+

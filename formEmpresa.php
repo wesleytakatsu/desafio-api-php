@@ -34,8 +34,9 @@
             <div id='formulario'>
                 <h2>Adicionar contato</h2>
                 <form action="formEmpresa.php" method="post">
+                    <input type="checkbox" id="adicionaEmpresa" name="adicionaEmpresa" checked onclick="return false;">
                     <label for="nomeEmpresa">Nome da empresa:</label><br>
-                    <input type="text" id="nomeEmpresa" name="nomeEmpresa" placeholder="Digite seu nome">
+                    <input type="text" id="nomeEmpresa" name="nomeEmpresa" placeholder="Digite o nome da empresa">
                     <input type="submit" value="Registrar Empresa">
                 </form>
             </div>
