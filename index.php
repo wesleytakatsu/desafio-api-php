@@ -13,6 +13,11 @@
             <a href="versaophp.php">Versão do PHP</a>
         </nav>
     </header>
+    <?php
+        echo "<pre>";
+        include('api_registro.php');
+        echo "</pre>";
+    ?>
 
 </body>
 </html>

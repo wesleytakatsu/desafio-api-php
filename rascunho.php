@@ -1,6 +1,5 @@
 <?php
     //$con = mysqli_connect("localhost", "root", "1231","desafio-api");
-
     $infocliente = array();
 
     $sql = "select * from clientes";
