@@ -3,6 +3,10 @@
 
 ![Takatsu's Projects](https://wesleytakatsu.github.io/Pagina-Apresentacao-Pessoal/media/img/Logo-Takatsu-Projetos.png)
 
+
+*[Conheça minha página de apresentação!](https://wesleytakatsu.github.io/Pagina-Apresentacao-Pessoal/)*
+
+
 ### DESAFIO PROPOSTO A MIM:
 O projeto de API de contatos é desenvolver uma API de cadastro de contatos. A API deve ser capaz de criar, atualizar, deletar e listar contatos.
 
