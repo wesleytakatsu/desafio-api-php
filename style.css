@@ -1,0 +1,40 @@
+body{
+    background-color: black;
+    color: aquamarine;
+}
+header{
+    text-align: center;
+}
+a{
+    color: chartreuse;
+}
+a:visited{
+    color: chartreuse;
+}
+a:hover{
+    color: rgb(0, 4, 255);
+}
+
+.flexbox-container{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+#formulario{
+    text-align: center;
+    width: 500px;
+}
+#dados-php{
+    width: 500px;
+}
+
+#metodos{
+    text-align: left;
+    width: 500px;
+}
+#execucao{
+    text-align: left;
+    width: 500px;
+}

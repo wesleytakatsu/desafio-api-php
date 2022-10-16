@@ -1,106 +1,186 @@
 <?php
-    //  ARQUIVO A SER USADO
-    $arquivoJSON = "registros.json";
 
-    //  #############################################
-    //  DECODE JSON => PHP
-    $dadosJson = file_get_contents($arquivoJSON);
-    $dadosJsonDecodificados = json_decode($dadosJson);
+    class Empresa {
+        // Properties
+        public $contatos; // ARRAY CONTATOS
+        public $empresas; // ARRAY EMPRESAS
+        public $arquivoJSON; //NOME ARQUIVO
+        public $dadosJsonDecodificados; //ARRAY
+        public $dadosJsonDecodificadosObjeto; //OBJETO
 
-    //  MOSTRA OS DADOS LIDOS DECODIFICADOS COMO ARRAY
-    print_r($dadosJsonDecodificados);
+        // FINALIZADO
+        // CONSTRUTOR INICIA COM O NOME DO ARQ JSON
+        function __construct($arquivoJSON){
+            $this->arquivoJSON = $arquivoJSON;
+            //  DECODE JSON => PHP
+            $dadosJson = file_get_contents($arquivoJSON);
+            $this->dadosJsonDecodificados = json_decode($dadosJson, true);
 
-    //  MOSTRA O LAST ERROR (VERIFICA SE LEU O ARQUIVO CORRETAMENTE)
-    print_r(json_last_error_msg());
+            //  CASO QUEIRA TRABALHAR COMO OBJETO E NÃO ARRAY
+            $this->dadosJsonDecodificadosObjeto = json_decode($dadosJson);
 
-    //  LISTA AS EMPRESAS
-    foreach($dadosJsonDecodificados->empresa as $empresa){
-        echo 'Nome da empresa: ' . $empresa->nome . PHP_EOL;
-    }
+            //  CARREGA AS EMPRESAS
+            $this->empresas = $this->dadosJsonDecodificados;
 
-    //  LISTA OS CONTATOS (nome e sobrenome)
-    foreach($empresa->contatos as $contato){
-        echo 'Nome do contato: ' . $contato->nome . ' ' . $contato->sobrenome . PHP_EOL;
-    }
+            //  MOSTRA O LAST ERROR (VERIFICA SE LEU O ARQUIVO CORRETAMENTE)
+            echo "Construtor: ";
+            print_r(json_last_error_msg());
+        }
+        // FINALIZADO
+        function getEmpresas(){
+            return $this->dadosJsonDecodificados['empresa'];
+        }
+        // FINALIZADO
+        function getContatos($nomeEmpresa){
+            foreach ($this->dadosJsonDecodificados['empresa'] as $empresa){
+                if( $empresa['nome'] == $nomeEmpresa){
+                    return $empresa['contatos'];
+                }
+            }
+            return null;
+        }
+        // FINALIZADO
+        function carregarArquivo($arquivoJSON){
+            $this->arquivoJSON = "registros.json";
+            
+            //  DECODE JSON => PHP
+            $dadosJson = file_get_contents($arquivoJSON);
+            $this->dadosJsonDecodificados = json_decode($dadosJson, true);
 
-    //  #############################################
-    //  CASO QUEIRA TRABALHAR COMO OBJETO E NÃO ARRAY
-    $dadosJsonDecodificadosObjeto = json_decode($dadosJson, true);
+            //  MOSTRA O LAST ERROR (VERIFICA SE LEU O ARQUIVO CORRETAMENTE)
+            print_r(json_last_error_msg());
 
-    //  LISTA AS EMPRESAS COMO OBJETO
-    foreach($dadosJsonDecodificadosObjeto['empresa'] as $empresa){
-        echo 'Nome da empresa: ' . $empresa['nome'] . PHP_EOL;
-    }
+            //  CASO QUEIRA TRABALHAR COMO OBJETO E NÃO ARRAY
+            $this->dadosJsonDecodificadosObjeto = json_decode($dadosJson);
 
+        }
 
-    //  #############################################
-    //  ENCODE PHP => JSON
+        // FINALIZADO
+        function gravarArquivo(){
+            //  CODIFICANDO PARA JSON E GRAVANDO NO ARQUIVO
+            $this->dadosJsonCodificados = json_encode($this->dadosJsonDecodificados, JSON_PRETTY_PRINT);
 
-    //  CRIANDO A ARRAY PARA O JSON
-    $arrayEmpresa = Array('empresa' => Array (
-            Array(
-            'nome' => 'Empresa de garagem',
-            'contatos' => Array (
-                Array(
-                    'nome' => 'Fernando',
-                    'sobrenome' => 'Sieiro',
-                    'datanasc' => '20-04-1962',
-                    'telefone' => "21 2222-7777",
-                    'celular' => "21 99999-8888",
-                    'email' => "fernando@teste.com"
-                ),
-                Array(
-                    'nome' => 'Wesley',
-                    'sobrenome' => 'Takatsu',
-                    'datanasc' => '17-02-1990',
-                    'telefone' => "21 99316-0875",
-                    'celular' => "21 99316-0875",
-                    'email' => "wesleytakatsu2@gmail.com"
-                ),
-                Array(
-                    'nome' => 'Valeska',
-                    'sobrenome' => 'Alyne',
-                    'datanasc' => '27-02-1990',
-                    'telefone' => "21 99316-0875",
-                    'celular' => "21 99316-0875",
-                    'email' => "valeskaalyne@hotmail.com"
+            //print_r($this->dadosJsonCodificados);
+
+            $fp = fopen($this->arquivoJSON, 'w');
+            fwrite($fp, $this->dadosJsonCodificados);
+            fclose($fp);
+        }
+
+        // FINALIZADO
+        function contatoAdicionar($empresaNome, $contatoArray){
+
+            $chave = array_search(
+                $empresaNome,
+                array_column(
+                    $this->dadosJsonDecodificados['empresa'], 'nome'
                 )
-            )
-        )
-    ));
+            );
+            //echo "ARRAY ANTES:<br>";
+            //print_r($this->dadosJsonDecodificados['empresa'][$chave]['contatos']);
 
-    //  CODIFICANDO PARA JSON
-    $dadosJsonCodificados = json_encode($arrayEmpresa, JSON_PRETTY_PRINT);
+            $nomeSobrenome = $contatoArray['nome'].$contatoArray['sobrenome'];
+            $chaveContato = array_search(
+                $empresaNome,
+                array_column(
+                    $this->dadosJsonDecodificados['empresa'][$chave]['contatos'],
+                    $nomeSobrenome
+                )
+            );
+            if($chave == null){
+                array_push(
+                    $this->dadosJsonDecodificados['empresa'][$chave]['contatos'],
+                    $contatoArray
+                );
+            }else{
+                echo "<br>O nome do contato já existe!";
+            }
 
-    print_r($dadosJsonCodificados);
+            //echo "ARRAY DEPOIS:<br>";
+            //print_r($this->dadosJsonDecodificados['empresa'][$chave]['contatos']);
 
-    $fp = fopen($arquivoJSON, 'w');
-    fwrite($fp, $dadosJsonCodificados);
-    fclose($fp);
+            $this->gravarArquivo();
+        }
 
+        // FINALIZADO
+        function empresaAdicionar($empresaNome){
+            $chave = array_search(
+                $empresaNome,
+                array_column(
+                    $this->dadosJsonDecodificados['empresa'], 'nome'
+                )
+            );
+            if($chave == null){
+                echo "ARRAY ANTES:<br>";
+                print_r($this->dadosJsonDecodificados['empresa']);
 
-    //  #############################################
-    //  CRIAR CONTATO
-    $empresa['contatos'][] = Array(
-        'nome' => 'José',
-        'sobrenome' => 'Silva',
-        'datanasc' => '11-11-1111',
-        'telefone' => "21 77777-5555",
-        'celular' => "21 99316-0875",
-        'email' => "josesilva@hotmail.com"
-    );
-    print_r("Lista empresa contatos adicionado:");
-    print_r($empresa);
+                array_push(
+                    $this->dadosJsonDecodificados['empresa'],
+                    Array(
+                        'nome' => $empresaNome,
+                        'contatos' => []
+                    )
+                );
+                echo "ARRAY DEPOIS:<br>";
+                print_r($this->dadosJsonDecodificados['empresa']);
 
-    //  CRIAR EMPRESA
-    $empresa[] = [
-        'nome' => 'Micro Programas',
-        'contatos' => []
-    ];
-    print_r("Lista empresa contatos adicionado:");
-    print_r($empresa);
+                $this->gravarArquivo();
+            }else{
+                echo "<br>O nome da empresa já existe!";
+            }
+        }
 
-    print_r("Registro adicionado:");
-    print_r($arrayEmpresa);
+        // VERIFICAR
+        function contatoAtualizar($empresaNome, $clienteNome){
+
+        }
+
+        // VERIFICAR
+        function contatoRemover(){
+
+        }
+
+        // FINALIZADO
+        function listaEmpresas() {
+            foreach($this->dadosJsonDecodificados['empresa'] as $empresas){
+                echo '<br>Nome da empresa: ' . $empresas['nome'] . PHP_EOL;
+            }
+        }
+
+        // VERIFICAR
+        function listaEmpresasObj(){
+            //  LISTA AS EMPRESAS COMO OBJETO
+            foreach($this->dadosJsonDecodificadosObjeto['empresa'] as $empresa){
+                echo 'Nome da empresa: ' . $empresa['nome'] . PHP_EOL;
+            }
+        }
+
+        // FINALIZADO
+        function listaContatos() {
+            //  LISTA OS CONTATOS (nome e sobrenome)
+            echo "<br>";
+            foreach($this->dadosJsonDecodificados['empresa'] as $empresa){
+                echo '<br>Nome da empresa: ' . $empresa['nome'] . PHP_EOL;
+                foreach($empresa['contatos'] as $contato){
+                    echo 'Nome do contato: ' . $contato['nome'] . ' ' . $contato['sobrenome'] . PHP_EOL;
+                }
+            }
+        }
+
+        //  VERIFICAR
+        function contatoSelecionar(){
+            print_r( $this->dadosJsonDecodificados['empresa'][0]['nome']  ); 
+            print_r($this->dadosJsonDecodificados['empresa']);
+        }
+
+        //  FINALIZADO
+        //  VALIDAÇÃO DO CAMPO DATA DO FORMULÁRIO
+        function validarData($data, $formato = 'Y-m-d'){
+            $d = DateTime::createFromFormat($formato, $data);
+            // Usa 4 dígitos para o ano. Retorna true se for validado.
+            return $d && $d->format($formato) === $data;
+        }
+    }
+
 
 ?>
