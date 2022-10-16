@@ -16,9 +16,6 @@ A API deve receber parametros de filtro para os campos empresa, nome + sobrenome
 
 O projeto deve ser compatível com PHP 8.
 
-![PHP](https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg)
-
-
 ## O PROJETO
 ### Criação da API
 Esta é a primeira versão que crio desta API.
