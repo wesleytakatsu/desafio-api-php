@@ -192,7 +192,7 @@
             }
         }
 
-        // VERIFICAR
+        // FINALIZADO
         function contatoAtualizar($chaveEmpresa, $contatoArray, $chaveContato){
             echo "<br>Executando a alteração!<br>";
 
@@ -217,6 +217,7 @@
             $this->gravarArquivo();
         }
 
+        // FINALIZADO
         function empresaAtualizar($chaveEmpresa, $nomeEmpresa){
             echo "<br>Executando a alteração!<br>";
 
