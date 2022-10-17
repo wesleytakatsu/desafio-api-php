@@ -33,3 +33,7 @@ Criei em 2 dias sem nunca ter usado JSON com PHP juntos antes.
 - Pode haver alguns comandos sem uso e está precisando de uma "limpeza" no código pois se trata de um teste e para estudos não se tratando uma API que será usada na prática.
 
 - O site não está com acabamento e desenvolvi de forma a mostrar muitas informações para identificar o que roda por trás do sistema.
+
+- O projeto está fácil para implementar uma integração com banco de dados MySQL ou o que preferir. O uso do JSON é uma ótima maneira de integrar sistemas e armazenar as informações onde preferir.
+
+- Não usei frameworks e bibliotecas externas. O sistema é só clonar e rodar.
